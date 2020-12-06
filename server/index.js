@@ -1,11 +1,11 @@
 const Express = require('express');
+var bodyParser = require('body-parser')
 
 const applicationSequelizeObject = require("./db");
 const applicationControllers = require("./controllers/index");
 
 const expressApplicationObject = new Express();
-
-expressApplicationObject.use(Express.json());
+var jsonParser = bodyParser.json()
 
 expressApplicationObject.use('/test', applicationControllers.test);
 expressApplicationObject.use('/users', applicationControllers.users);
@@ -44,15 +44,22 @@ expressApplicationObject.post("/challenge", (request, response) => {
 // Synchronize our Database with our Models
 // Listen on our specified port
 
-applicationSequelizeObject.authenticate()
-.then(() => applicationSequelizeObject.sync())
-.then(() => {
+
+ applicationSequelizeObject.authenticate()
+  .then((error) => {
+      console.log("made it to here")
+      applicationSequelizeObject.sync()
+  }).catch(function (err) {
+    console.log("SOMETHING DONE GOOFED");
+});
+//  .then(() => {
     
+    console.log("1*");
     expressApplicationObject.listen(9001, () => {
         console.log("[server]: App is listening on port 9001");
     });
-})
-.catch((err) => {
-    console.log(err)
-});
+//  })
+//  .catch((err) => {
+//      console.log(err)
+//  });
 

@@ -3,6 +3,9 @@ const bcrypt = require("bcrypt");
 
 const { user } = require('../models/index');
 
+var bodyParser = require('body-parser')
+var jsonParser = bodyParser.json()
+
 const UsersControllerRouter = Router();
 
 // CRUD-DY CODE FOR USERS
@@ -17,7 +20,7 @@ const UsersControllerRouter = Router();
 // PUT - Modify existing info
 // DELETE - Delete data from the db
 
-UsersControllerRouter.post('/register', (request, response) => {
+UsersControllerRouter.post('/register', jsonParser,  (request, response) => {
     // PROCESS:
     // Retrieve the data from the body of the request
     // !!! Use that data to craft a USER
@@ -49,7 +52,7 @@ UsersControllerRouter.post('/register', (request, response) => {
     // });
 });
 
-UsersControllerRouter.post('/login', (request, response) => {
+UsersControllerRouter.post('/login', jsonParser, (request, response) => {
     // PROCESS:
     // Retrieve the data from the body of the request
     // Verify the user exists, and the data matches what is in the record
