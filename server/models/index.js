@@ -4,4 +4,6 @@ const User = require("./userModel");
 
 module.exports = {
     user: User,
+    
+    Book: require("./book")
 }

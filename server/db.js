@@ -6,4 +6,14 @@ const applicationSequelizeObject = new Sequelize("BookJot", "postgres", "strawbe
     port: 5432
 });
 
+sequelize.authenticate().then(
+    function() {
+        console.log('connected to recipeazy heroku postgres database');
+    },
+    function(err) {
+        console.log(err);
+        console.log('--DB.JS AUTHENTICATE ERROR--')
+    }
+);
+
 module.exports = applicationSequelizeObject;

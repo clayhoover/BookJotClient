@@ -4,6 +4,10 @@ var bodyParser = require('body-parser')
 const applicationSequelizeObject = require("./db");
 const applicationControllers = require("./controllers/index");
 
+const path = require("path");
+const router = require("express").Router();
+const apiRoutes = require("./api");
+
 const expressApplicationObject = new Express();
 var jsonParser = bodyParser.json()
 
@@ -18,17 +22,6 @@ expressApplicationObject.get('/', (request, response) => {
     response.send('Root Route Hit, hello from the BookJot Server');
 });
 
-// Challenge: Recieve a POST request at the route "/challenge"
-// Takes 2 values inside the body:
-// Name -> A string for a name
-// Age -> A number for the age
-// Respond with this message:
-// If the user is 18 and older, the message will be:
-//    "<name, you are an adult!"
-// otherwise the message will be :
-//    "<name>, you will be an adult soon!"
-
-
 
 expressApplicationObject.post("/challenge", (request, response) => {
     let data = request.body;
@@ -37,6 +30,15 @@ expressApplicationObject.post("/challenge", (request, response) => {
 
     response.send(message);
 });
+
+// API Routes
+router.use("/api", apiRoutes);
+
+// If no API routes are hit, send the React app
+router.use(function(req, res) {
+  res.sendFile(path.join(__dirname, "../client/public/index.html"));
+});
+
 
 
 // Startup Procedure:
