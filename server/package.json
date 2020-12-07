@@ -4,7 +4,7 @@
   "description": "server for Bookjot Application",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index.js"
   },
   "author": "Clay Hoover",
   "license": "ISC",

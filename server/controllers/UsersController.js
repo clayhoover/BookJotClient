@@ -88,4 +88,4 @@ UsersControllerRouter.post('/login', jsonParser, (req, res) => {
 
 // TODO: Implement the following routes: "profile", "update", "terminate"
 
-module.exports = UsersControllerRouter
+module.exports = UsersControllerRouter;

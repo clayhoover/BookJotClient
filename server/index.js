@@ -1,25 +1,26 @@
 require('dotenv').config();
 
-const Express = require('express');
-let cors = require('cors');
+const Express = require(express);
+const router = require("express").Router();
+router.use(Express.json())
 
 const sequelize = require("./db");
 //const users = require("./controllers/index");
 
 const path = require("path");
-const router = require("express").Router();
 const apiRoutes = require("../server/routes/api");
 
 let user = require("./controllers/UsersController");
 let book = require("./controllers/booksController");
+let notes = require("./controllers/notesController");
 
-let expressApplicationObject = Express().use('*', cors());
-expressApplicationObject.use(Express.json());
+//let expressApplicationObject = Express().use('*', cors());
+//expressApplicationObject.use(Express.json());
 // var bodyParser = require('body-parser');
 // var jsonParser = bodyParser.json();
 // expressApplicationObject.use(require('../server/middleware/headers'));
 
-//sequelize.sync(); 
+sequelize.sync(); 
 
 // expressApplicationObject.post("/challenge", (request, response) => {
 //     let data = request.body;
@@ -44,10 +45,12 @@ router.use(function(req, res) {
 // Verify the connection to the Postgres DB
 // Synchronize our Database with our Models
 // Listen on our specified port
+router.use(require('./middleware/headers'));
+router.use('/user', user);
+// This is where validate session goes
+router.use('/book', book);
 
-expressApplicationObject.use('/user', user);
-
-//router.use('/book', book);
+router.use('/notes', notes);
 
 //  sequelize.authenticate()
 //   .then((error) => {
@@ -60,11 +63,11 @@ expressApplicationObject.use('/user', user);
     
     //console.log("1*");
 
-    // expressApplicationObject.listen(9001, () => {
+    // router.listen(9001, () => {
     //     console.log("[server]: App is listening on port 9001");
     // });
 
-    expressApplicationObject.listen(process.env.PORT, () => {
+    router.listen(process.env.PORT, () => {
         console.log(`server is listening on port ${process.env.PORT}`)
     })
 
