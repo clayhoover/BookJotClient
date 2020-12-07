@@ -1,15 +1,16 @@
-//const mongoose = require("mongoose");
-//const Schema = mongoose.Schema;
+const { sequelize, DataTypes } = require("sequelize");
+const applicationDatabaseObject = require('../db');
 
-const bookSchema = new Schema({
-    id: { type: Number},
-    authors: { type: String, required: true },
-    description: { type: String, required: true },
-    image: { type: String, required: true },
-    link: { type: String, required: true },
-    title: { type: String, required: true }
+
+const book = applicationDatabaseObject.define('book',{
+    id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true},
+    authors: { type: DataTypes.STRING, allowNull: true },
+    description: { type: DataTypes.STRING},
+    image: { type: DataTypes.STRING},
+    link: { type: DataTypes.STRING},
+    title: { type: DataTypes.STRING}
 });
 
-//const Book = mongoose.model("Book", bookSchema);
+//const Book = sequelize.model("Book", book);
 
-module.exports = Book;
+module.exports = book;

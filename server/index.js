@@ -1,36 +1,35 @@
-const Express = require('express');
-var bodyParser = require('body-parser')
+require('dotenv').config();
 
-const applicationSequelizeObject = require("./db");
-const applicationControllers = require("./controllers/index");
+const Express = require('express');
+let cors = require('cors');
+
+const sequelize = require("./db");
+//const users = require("./controllers/index");
 
 const path = require("path");
 const router = require("express").Router();
-const apiRoutes = require("./api");
+const apiRoutes = require("../server/routes/api");
 
-const expressApplicationObject = new Express();
-var jsonParser = bodyParser.json()
+let user = require("./controllers/UsersController");
+let book = require("./controllers/booksController");
 
-expressApplicationObject.use('/test', applicationControllers.test);
-expressApplicationObject.use('/users', applicationControllers.users);
+let expressApplicationObject = Express().use('*', cors());
+expressApplicationObject.use(Express.json());
+// var bodyParser = require('body-parser');
+// var jsonParser = bodyParser.json();
+// expressApplicationObject.use(require('../server/middleware/headers'));
 
-expressApplicationObject.get('/', (request, response) => {
-    console.log('[server]: Root GET request recieved');
-    console.log('TYPE:', request.method);
-    console.log('URL:', request.url);
-    console.log("[server]: Response being dispatched ->");
-    response.send('Root Route Hit, hello from the BookJot Server');
-});
+//sequelize.sync(); 
 
-
-expressApplicationObject.post("/challenge", (request, response) => {
-    let data = request.body;
-    let message = data.age >= 18 ? `${ data.name }, you are an adult!` : `${ data.name }, you will be an adult eventually!`;
+// expressApplicationObject.post("/challenge", (request, response) => {
+//     let data = request.body;
+//     let message = data.age >= 18 ? `${ data.name }, you are an adult!` : `${ data.name }, you will be an adult eventually!`;
 
 
-    response.send(message);
-});
+//     response.send(message);
+// });
 
+//************* 
 // API Routes
 router.use("/api", apiRoutes);
 
@@ -38,7 +37,7 @@ router.use("/api", apiRoutes);
 router.use(function(req, res) {
   res.sendFile(path.join(__dirname, "../client/public/index.html"));
 });
-
+// **************
 
 
 // Startup Procedure:
@@ -46,14 +45,17 @@ router.use(function(req, res) {
 // Synchronize our Database with our Models
 // Listen on our specified port
 
+expressApplicationObject.use('/user', user);
 
- applicationSequelizeObject.authenticate()
-  .then((error) => {
-      console.log("made it to here")
-      applicationSequelizeObject.sync()
-  }).catch(function (err) {
-    console.log("SOMETHING DONE GOOFED");
-});
+//router.use('/book', book);
+
+//  sequelize.authenticate()
+//   .then((error) => {
+//       console.log("made it to here")
+//       //sequelize.sync()
+//   }).catch(function (err) {
+//     console.log(err);
+// });
 //  .then(() => {
     
     console.log("1*");
