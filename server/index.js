@@ -58,10 +58,16 @@ expressApplicationObject.use('/user', user);
 // });
 //  .then(() => {
     
-    console.log("1*");
-    expressApplicationObject.listen(9001, () => {
-        console.log("[server]: App is listening on port 9001");
-    });
+    //console.log("1*");
+
+    // expressApplicationObject.listen(9001, () => {
+    //     console.log("[server]: App is listening on port 9001");
+    // });
+
+    expressApplicationObject.listen(process.env.PORT, () => {
+        console.log(`server is listening on port ${process.env.PORT}`)
+    })
+
 //  })
 //  .catch((err) => {
 //      console.log(err)

@@ -5,6 +5,8 @@ const Sequelize = require('sequelize');
 //     dialiect: 'postgres'
 // });
 
+DB_CONNECTION_STRING="postgres://postgres:strawberries00@localhost:5432/BookJot"
+
 const sequelize = new Sequelize('postgres://postgres:strawberries00:5432/BookJot')
 
 sequelize.authenticate().then(
