@@ -1,8 +1,8 @@
 require('dotenv').config();
 
-const Express = require(express);
+const Express = require('express');
 const router = require("express").Router();
-router.use(Express.json())
+router.use(Express.json());
 
 const sequelize = require("./db");
 //const users = require("./controllers/index");
@@ -12,7 +12,7 @@ const apiRoutes = require("../server/routes/api");
 
 let user = require("./controllers/UsersController");
 let book = require("./controllers/booksController");
-let notes = require("./controllers/notesController");
+let note = require("./controllers/notesController");
 
 //let expressApplicationObject = Express().use('*', cors());
 //expressApplicationObject.use(Express.json());
@@ -22,15 +22,7 @@ let notes = require("./controllers/notesController");
 
 sequelize.sync(); 
 
-// expressApplicationObject.post("/challenge", (request, response) => {
-//     let data = request.body;
-//     let message = data.age >= 18 ? `${ data.name }, you are an adult!` : `${ data.name }, you will be an adult eventually!`;
 
-
-//     response.send(message);
-// });
-
-//************* 
 // API Routes
 router.use("/api", apiRoutes);
 
@@ -38,7 +30,6 @@ router.use("/api", apiRoutes);
 router.use(function(req, res) {
   res.sendFile(path.join(__dirname, "../client/public/index.html"));
 });
-// **************
 
 
 // Startup Procedure:
@@ -47,10 +38,10 @@ router.use(function(req, res) {
 // Listen on our specified port
 router.use(require('./middleware/headers'));
 router.use('/user', user);
-// This is where validate session goes
-router.use('/book', book);
+router.use(require('./middleware/validateSession'));
+router.use(require('./models/book', book));
 
-router.use('/notes', notes);
+router.use(require('./models/note', note));
 
 //  sequelize.authenticate()
 //   .then((error) => {
@@ -68,11 +59,12 @@ router.use('/notes', notes);
     // });
 
     router.listen(process.env.PORT, () => {
-        console.log(`server is listening on port ${process.env.PORT}`)
-    })
+        console.log(`server is listening on ${process.env.PORT}`)
+    });
 
 //  })
 //  .catch((err) => {
 //      console.log(err)
 //  });
 
+module.exports = router;

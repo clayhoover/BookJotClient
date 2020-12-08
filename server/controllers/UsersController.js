@@ -9,24 +9,8 @@ var jsonParser = bodyParser.json()
 const UsersControllerRouter = Router();
 let jwt = require('jsonwebtoken');
 
-// CRUD-DY CODE FOR USERS
-// C - CREATE A USER BY REGISTRATION   (url): "/register"
-// R - READ THE USER PROFILE           (url): "/profile", "/login"
-// U - UPDATE USER INFORMATION         (url): "/update"
-// D - DELETE THE USER                 (url): "/delete"
-
-// Kinds of requests:
-// POST - Create new info, insert info into db, sends information 
-// GET - Retrieve info, or pull info from db (give me an html doc)
-// PUT - Modify existing info
-// DELETE - Delete data from the db
 
 UsersControllerRouter.post('/register', jsonParser,  (request, response) => {
-    // PROCESS:
-    // Retrieve the data from the body of the request
-    // !!! Use that data to craft a USER
-    // !!! Save the USER to the db
-    // Respond with the status of the action
 
     let { email, password } = request.body;
     let newUser = user.build({ 
@@ -48,17 +32,9 @@ UsersControllerRouter.post('/register', jsonParser,  (request, response) => {
         });
     });
 
-    // response.json({
-    //     message: "Hello from the user Register route!",
-    // });
 });
 
 UsersControllerRouter.post('/login', jsonParser, (req, res) => {
-    // PROCESS:
-    // Retrieve the data from the body of the request
-    // Verify the user exists, and the data matches what is in the record
-    // If so: respond with a token
-    // If not: respond with "Get off my lawn!"
         user.findOne({ where: {user_email: req.body.email} })
         .then(
             function(user) {
