@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const Express = require('express');
-const router = require("express").Router();
+const router = Express();
 router.use(Express.json());
 
 const sequelize = require("./db");
@@ -67,4 +67,3 @@ router.use(require('./models/note', note));
 //      console.log(err)
 //  });
 
-module.exports = router;
